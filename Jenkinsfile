@@ -14,7 +14,6 @@ node {
          rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: artiServer
          rtMaven.tool = "maven"
          buildInfo = Artifactory.newBuildInfo()
-         //buildInfo.env.capture = true
          echo "stage 00"
      }
      stage('Checkout Source') {
