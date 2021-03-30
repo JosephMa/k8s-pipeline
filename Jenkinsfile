@@ -29,6 +29,7 @@ node {
          echo "stage 01"
          //git(url: 'https://github.com/JosephMa/k8s-pipeline.git', credentialsId: 'github_token', branch: "master")
          sshCommand remote: server, command: """git url: 'https://github.com/JosephMa/k8s-pipeline.git', branch: 'master' """
+         sshCommand remote: server, command: """pwd """
      }
      stage('Build Maven') {
          echo "stage 02"
