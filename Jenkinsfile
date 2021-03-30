@@ -13,7 +13,7 @@ node {
          rtMaven.deployer releaseRepo:'automation-mvn-solution-local', snapshotRepo:'automation-mvn-sol-snapshot-local', server: artiServer
          rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: artiServer
          rtMaven.tool = "maven"
-         def buildInfo = Artifactory.newBuildInfo()
+         buildInfo = Artifactory.newBuildInfo()
          buildInfo.env.capture = true
          echo "stage 00"
      }
