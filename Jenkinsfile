@@ -24,7 +24,6 @@ node {
      }
      stage('Build Maven') {
          echo "stage 02"
-
          // Maven build
          rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
      }
