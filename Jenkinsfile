@@ -6,22 +6,20 @@ node {
      def tagName
      stage('Prepare') {
          // Variables initilization
-         //artiServer = Artifactory.server SERVER_ID
          artiServer = Artifactory.server('jfrog-artifactory')
          rtMaven = Artifactory.newMavenBuild()
-         buildInfo = Artifactory.newBuildInfo()
          // Build Env
          buildInfo.env.capture = true
-         echo "1111111111111"
          rtMaven.deployer releaseRepo:'automation-mvn-solution-local', snapshotRepo:'automation-mvn-sol-snapshot-local', server: artiServer
-         echo "2222222222222"
          rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: artiServer
          rtMaven.tool = "maven"
+         def buildInfo = Artifactory.newBuildInfo()
+         buildInfo.env.capture = true
          echo "stage 00"
      }
      stage('Checkout Source') {
          steps {
-             sh 'python --version'
+             //sh 'python --version'
              echo "stage 01"
              git([url: 'git@github.com/JosephMa/k8s-pipeline.git', branch: 'master'])
          }
