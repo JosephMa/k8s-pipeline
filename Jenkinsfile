@@ -1,5 +1,5 @@
-pipeline {
-    agent any
+node {
+     agent any
      def mvnHome
      def artiServer
      def rtMaven
