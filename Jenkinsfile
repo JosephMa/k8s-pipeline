@@ -5,6 +5,7 @@ node {
      def buildInfo
      def tagName
      stage('Prepare') {
+     
          // Variables initilization
          //artiServer = Artifactory.server SERVER_ID
          artiServer = Artifactory.server('jfrog-artifactory')
