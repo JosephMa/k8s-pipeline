@@ -20,7 +20,8 @@ node {
      stage('Checkout Source') {
          echo "stage 01"
          //git([url: 'git@github.com：JosephMa/k8s-pipeline.git', branch: 'master'])
-         git(url: 'https://github.com/JosephMa/k8s-pipeline.git', credentialsId: 'github_token', branch: "master")
+         //git(url: 'https://github.com/JosephMa/k8s-pipeline.git', credentialsId: 'github_token', branch: "master")
+         git url: 'https://github.com/JosephMa/k8s-pipeline.git'
      }
      stage('Build Maven') {
          echo "stage 02"
