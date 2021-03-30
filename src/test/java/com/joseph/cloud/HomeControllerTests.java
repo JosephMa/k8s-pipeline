@@ -1,4 +1,4 @@
-package com.jfrog.cloud;
+package com.joseph.cloud;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
