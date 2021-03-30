@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.5.2'
-            args '-v $HOME/tools/docker'
-        }
-    }
+    agent any
     stages {
         stage('Checkout Maven') {
             steps {
