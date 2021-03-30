@@ -18,7 +18,6 @@ node {
          echo "stage 00"
      }
      stage('Checkout Source') {
-         //sh 'python --version'
          echo "stage 01"
          //git([url: 'git@github.com：JosephMa/k8s-pipeline.git', branch: 'master'])
          git(url: 'https://github.com/JosephMa/k8s-pipeline.git', credentialsId: 'github_token', branch: "master")
