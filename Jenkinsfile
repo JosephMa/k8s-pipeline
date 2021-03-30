@@ -5,10 +5,10 @@ node {
      def buildInfo
      def tagName
      stage('Prepare') {
-         rtMaven = Artifactory.newMavenBuild()
          // Variables initilization
          //artiServer = Artifactory.server SERVER_ID
          artiServer = Artifactory.server('jfrog-artifactory')
+         rtMaven = Artifactory.newMavenBuild()
          buildInfo = Artifactory.newBuildInfo()
          // Build Env
          buildInfo.env.capture = true
