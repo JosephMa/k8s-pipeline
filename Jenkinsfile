@@ -13,8 +13,8 @@ node {
          // Build Env
          buildInfo.env.capture = true
 
-         rtMaven.deployer releaseRepo:'automation-mvn-solution-local', snapshotRepo:'automation-mvn-sol-snapshot-local', server: server
-         rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
+         rtMaven.deployer releaseRepo:'automation-mvn-solution-local', snapshotRepo:'automation-mvn-sol-snapshot-local', server: artiServer
+         rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: artiServer
          rtMaven.tool = "maven"
          echo "stage 00"
      }
