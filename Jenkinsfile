@@ -15,7 +15,7 @@ node {
 
         // Specific dependency resolve repo
         rtMaven.resolver releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: artiServer
-        // Specific target repo
+        // Specific target repoJenkinsfile
         rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local', server: artiServer
 
         // Remove resources created previous time
