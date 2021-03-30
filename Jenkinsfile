@@ -5,11 +5,11 @@ node {
      def buildInfo
      def tagName
      def remote = [:]
-     remote.name = 'mysql'
-     remote.host = '192.168.8.108'
+     remote.name = 'host'
+     remote.host = '172.20.61.160'
      remote.user = 'root'
      remote.port = 22
-     remote.password = 'qweasd'
+     remote.password = '123456'
      remote.allowAnyHosts = true
 
      stage('Prepare') {
