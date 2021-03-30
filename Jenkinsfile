@@ -34,7 +34,7 @@ node {
      stage('Build Maven') {
          echo "stage 02"
          // Maven build
-         
+
          rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
      }
      stage('Checkout Docker') {
@@ -66,13 +66,13 @@ node {
         echo "stage 07"
      }
      stage('Distribute') {
-     		echo "stage 08"
+     	echo "stage 08"
      }
      stage('Deployment') {
-     		echo "stage 09"
+     	echo "stage 09"
      }
      stage('Notice') {
-     		echo "stage 10"
-     		echo 'please visit http://localhost:8181 to verify the result.'
+     	echo "stage 10"
+     	echo 'please visit http://localhost:8181 to verify the result.'
      }
 }
