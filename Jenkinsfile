@@ -8,12 +8,13 @@ node {
          // Variables initilization
          artiServer = Artifactory.server('jfrog-artifactory')
          rtMaven = Artifactory.newMavenBuild()
+         buildInfo = Artifactory.newBuildInfo()
          // Build Env
          buildInfo.env.capture = true
          rtMaven.deployer releaseRepo:'automation-mvn-solution-local', snapshotRepo:'automation-mvn-sol-snapshot-local', server: artiServer
          rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: artiServer
          rtMaven.tool = "maven"
-         buildInfo = Artifactory.newBuildInfo()
+
          echo "stage 00"
      }
      stage('Checkout Source') {
