@@ -6,7 +6,8 @@ node {
      def tagName
      stage('Prepare') {
          // Variables initilization
-         artiServer = Artifactory.server SERVER_ID
+         //artiServer = Artifactory.server SERVER_ID
+         artiServer = Artifactory.server('jfrog-artifactory')
          buildInfo = Artifactory.newBuildInfo()
          // Build Env
          buildInfo.env.capture = true
@@ -58,7 +59,7 @@ node {
           steps{
               echo "stage 06"
               // Smoke test
-              docker.image(tagName).withRun('-p 8181:8080') { c->
+              docker.image(tagName).withRun('-p 8181:8080') {
                   sleep 5
                   // NOTE: According to business logic
                   sh 'curl "http://127.0.0.1:8181"'
