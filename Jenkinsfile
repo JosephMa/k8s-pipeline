@@ -4,6 +4,14 @@ node {
      def rtMaven
      def buildInfo
      def tagName
+     def remote = [:]
+     remote.name = 'mysql'
+     remote.host = '192.168.8.108'
+     remote.user = 'root'
+     remote.port = 22
+     remote.password = 'qweasd'
+     remote.allowAnyHosts = true
+
      stage('Prepare') {
          // Variables initilization
          artiServer = Artifactory.server('jfrog-artifactory')
@@ -19,9 +27,8 @@ node {
      }
      stage('Checkout Source') {
          echo "stage 01"
-         //git([url: 'git@github.com：JosephMa/k8s-pipeline.git', branch: 'master'])
          //git(url: 'https://github.com/JosephMa/k8s-pipeline.git', credentialsId: 'github_token', branch: "master")
-         git url: 'https://github.com/JosephMa/k8s-pipeline.git', branch: 'master'
+         sshCommand remote: server, command: """git url: 'https://github.com/JosephMa/k8s-pipeline.git', branch: 'master' """
      }
      stage('Build Maven') {
          echo "stage 02"
