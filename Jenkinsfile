@@ -65,8 +65,8 @@ node {
      }
      stage('Promotions') {
         echo "stage 07"
-                sh 'sed -i "s/{tag}/${BUILD_ID}/g" docker-promote.json'
-                sh 'curl  -X POST -H \"Content-Type: application/json\"  http://localhost:8082/artifactory/docker-stage/v2/promote -d @docker-promote.json -u ops02:AP51rcczx4RvqFz3Uc5jnH7bLFH'
+        sh 'sed -i "s/{tag}/${BUILD_ID}/g" docker-promote.json'
+        sh 'curl  -X POST -H \"Content-Type: application/json\"  http://localhost:8082/artifactory/docker-stage/v2/promote -d @docker-promote.json -u ops02:AP51rcczx4RvqFz3Uc5jnH7bLFH'
      }
      stage('Distribute') {
      	echo "stage 08"
