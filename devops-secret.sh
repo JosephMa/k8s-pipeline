@@ -1,1 +1,1 @@
-kubectl create secret docker-registry artifactory-docker-registry --docker-username="ops02" --docker-password="AP51rcczx4RvqFz3Uc5jnH7bLFH" --docker-server="docker-releases.localhost" --namespace=devops
+kubectl create secret docker-registry artifactory-docker-registry --docker-username="ops02" --docker-password="AP51rcczx4RvqFz3Uc5jnH7bLFH" --docker-server="docker-releases.artifactory.localhost:8082" --namespace=devops
