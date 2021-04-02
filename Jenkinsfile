@@ -37,7 +37,7 @@ node {
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
 
          //sh '/usr/local/maven3.6.3/bin/mvn test'
-         sh '/usr/local/maven3.6.3/bin/mvn -Dmaven.test.skip=true clean install deploy'
+         sh '/usr/local/maven3.6.3/bin/mvn -Dmaven.test.skip=true clean install'
      }
      stage('Checkout Docker') {
         echo "stage 03"
