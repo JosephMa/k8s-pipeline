@@ -4,7 +4,7 @@ node {
      def rtMaven
      def buildInfo
      def tagName
-     def remote = [:]
+     //def remote = [:]
      //remote.name = 'host'
      //remote.host = '172.20.50.10'
      //remote.user = 'root'
