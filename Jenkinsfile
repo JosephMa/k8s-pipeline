@@ -5,12 +5,12 @@ node {
      def buildInfo
      def tagName
      def remote = [:]
-     remote.name = 'host'
-     remote.host = '172.20.50.10'
-     remote.user = 'root'
-     remote.port = 22
-     remote.password = ''
-     remote.allowAnyHosts = true
+     //remote.name = 'host'
+     //remote.host = '172.20.50.10'
+     //remote.user = 'root'
+     //remote.port = 22
+     //remote.password = ''
+     //remote.allowAnyHosts = true
 
      stage('Prepare') {
          // Variables initilization
