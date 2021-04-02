@@ -35,7 +35,7 @@ node {
          echo "stage 02"
          // Maven build
          //rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
-         
+
          sh 'mvn test'
          sh 'mvn -Dmaven.test.failure.ignore=true clean install'
      }
@@ -60,7 +60,6 @@ node {
         // Smoke test
         docker.image(tagName).withRun('-p 8181:8080') {
             sleep 5
-            // NOTE: According to business logic
             sh 'curl "http://127.0.0.1:8181"'
         }
      }
