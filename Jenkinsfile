@@ -21,7 +21,7 @@ node {
          buildInfo.env.capture = true
          rtMaven.deployer releaseRepo:'automation-mvn-solution-local', snapshotRepo:'automation-mvn-sol-snapshot-local', server: artiServer
          rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: artiServer
-         rtMaven.tool = "maven"
+         rtMaven.tool = "mvn"
 
          echo "stage 00"
      }
@@ -34,6 +34,9 @@ node {
      stage('Build Maven') {
          echo "stage 02"
          // Maven build
+
+         sh 'mvn test'
+         sh 'mvn clean test install'
          rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
      }
      stage('Checkout Docker') {
