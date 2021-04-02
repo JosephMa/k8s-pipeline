@@ -9,7 +9,7 @@ node {
      remote.host = '172.20.61.160'
      remote.user = 'root'
      remote.port = 22
-     remote.password = '123456'
+     remote.password = ''
      remote.allowAnyHosts = true
 
      stage('Prepare') {
@@ -27,7 +27,6 @@ node {
      }
      stage('Checkout Source') {
          echo "stage 01"
-         //git(url: 'https://github.com/JosephMa/k8s-pipeline.git', credentialsId: 'github_token', branch: "master")
          git url: 'https://github.com/JosephMa/k8s-pipeline.git', branch: 'master'
          //sshScript remote: remote, script: "git url: 'https://github.com/JosephMa/k8s-pipeline.git', branch: 'master'"
          //sshScript remote: remote, script: "pwd"
@@ -35,7 +34,6 @@ node {
      stage('Build Maven') {
          echo "stage 02"
          // Maven build
-
          rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
      }
      stage('Checkout Docker') {
@@ -44,11 +42,11 @@ node {
      stage('Build Image') {
         echo "stage 04"
         // Docker tag and upload to snapshot repository
-        tagName = 'joseph/openapi-demo:' + env.BUILD_NUMBER
+        tagName = 'joseph/openapi:' + env.BUILD_NUMBER
         docker.build(tagName)
-        //def artDocker= Artifactory.docker('admin', 'ACWmSmLjLc5VKVYuSeumtarKV7TfboRAEwC1tqKAUvbniFJqp7xLfCyvJ7GxWuJZ')
-        def artDocker = Artifactory.docker server: artiServer
-        artDocker.push(tagName, 'release-local-docker', buildInfo)
+        def artDocker= Artifactory.docker('ops02', 'AP51rcczx4RvqFz3Uc5jnH7bLFH')
+        //def artDocker = Artifactory.docker server: artiServer
+        artDocker.push(tagName, 'docker-stage', buildInfo)
         artiServer.publishBuildInfo buildInfo
      }
      stage('Build and Deploy') {
@@ -65,12 +63,23 @@ node {
      }
      stage('Promotions') {
         echo "stage 07"
+                sh 'sed -i "s/{tag}/${BUILD_ID}/g" docker-promote.json'
+                sh 'curl  -X POST -H \"Content-Type: application/json\"  http://localhost:8082/artifactory/docker-stage/v2/promote -d @docker-promote.json -u ops02:AP51rcczx4RvqFz3Uc5jnH7bLFH'
      }
      stage('Distribute') {
      	echo "stage 08"
+     	sh 'curl -O -u ops02:AP51rcczx4RvqFz3Uc5jnH7bLFH -X GET http://localhost:8082/artifactory/kube-config/1.0/app.cfg'
+        sh 'kubectl -s kube-master:8080 --namespace=devops create configmap app-config --from-literal=$(cat app.cfg)'
      }
      stage('Deployment') {
      	echo "stage 09"
+     	sh 'echo $(pwd)'
+        sh 'sed -i "s/{tag}/${BUILD_ID}/g" kube-app.json'
+        sh 'sleep 10'
+        sh 'kubectl -s kube-master:8080 create -f kube-svc.json'
+        sh 'kubectl -s kube-master:8080 create -f kube-app.json'
+        sh 'for i in {1..120}; do echo "waiting for app starting,$[180-$i] second left..."; sleep 1; done;'
+        sh 'echo deploy finished successfully.'
      }
      stage('Notice') {
      	echo "stage 10"

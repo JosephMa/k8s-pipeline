@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.jfrog.cloud</groupId>
+  <groupId>com.joseph.cloud</groupId>
   <artifactId>api</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
@@ -11,10 +11,10 @@
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>1.5.9.RELEASE</version>
+    <relativePath/>
   </parent>
 
   <name>api</name>
-  <url>http://maven.apache.org</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -31,32 +31,61 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
   <repositories>
     <repository>
-      <id>oss-snapshots</id>
-      <name>JFrog OSS Snapshots</name>
-      <url>https://oss.jfrog.org/simple/oss-snapshot-local/</url>
+      <id>snapshots</id>
+      <name>ssc-snapshot</name>
+      <url>https://localhost:8082/artifactory/ssc-snapshot/</url>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
     </repository>
     <repository>
-      <id>spring-releases</id>
-      <url>https://repo.spring.io/libs-release</url>
+      <id>central</id>
+      <url>http://localhost:8082/artifactory/ssc-center/</url>
     </repository>
   </repositories>
   <pluginRepositories>
     <pluginRepository>
-      <id>spring-releases</id>
-      <url>https://repo.spring.io/libs-release</url>
+      <id>central</id>
+      <url>http://localhost:8082/artifactory/ssc-center/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
     </pluginRepository>
   </pluginRepositories>
+
+  <distributionManagement>
+    <repository>
+      <id>central</id>
+      <name>ssc-center</name>
+      <url>http://localhost:8082/artifactory/ssc-center/</url>
+    </repository>
+    <snapshotRepository>
+      <id>snapshots</id>
+      <name>ssc-snapshot</name>
+      <url>http://localhost:8082/artifactory/ssc-snapshot/</url>
+    </snapshotRepository>
+    <site>
+      <id>central</id>
+      <name>ssc-center</name>
+      <url>dev:http://localhost:8082/artifactory/ssc-center/</url>
+    </site>
+  </distributionManagement>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+          <fork>true</fork>
+          <addResources>true</addResources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
