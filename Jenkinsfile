@@ -34,7 +34,7 @@ node {
      stage('Build Maven') {
          echo "stage 02"
          // Maven build
-         //rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
+         // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
 
          sh '/usr/local/maven3.6.3/bin/mvn test'
          sh '/usr/local/maven3.6.3/bin/mvn -Dmaven.test.failure.ignore=true clean deploy'
