@@ -6,7 +6,7 @@ node {
      def tagName
      def remote = [:]
      remote.name = 'host'
-     remote.host = '172.20.61.160'
+     remote.host = '172.20.50.10'
      remote.user = 'root'
      remote.port = 22
      remote.password = ''
