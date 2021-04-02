@@ -2,7 +2,7 @@
   "apiVersion": "extensions/v1beta1",
   "kind": "Deployment",
   "metadata": {
-    "name": "jfrog-cloud-app-demo",
+    "name": "cloud-app",
     "namespace": "devops"
   },
   "spec": {
@@ -10,7 +10,7 @@
     "template": {
       "metadata": {
         "labels": {
-          "app": "jfrog-cloud-app"
+          "app": "cloud-app"
         }
       },
       "spec": {
@@ -19,8 +19,8 @@
         }],
         "containers": [
           {
-            "name": "jfrog-cloud-app",
-            "image": "docker-release-local.demo.jfrogchina.com/jfrog-cloud-demo:4",
+            "name": "cloud-app",
+            "image": "joseph/cloud-app:V1.0",
             "imagePullPolicy": "IfNotPresent",
             "env":[
               {

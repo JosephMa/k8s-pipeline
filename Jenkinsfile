@@ -42,7 +42,7 @@ node {
      stage('Build Image') {
         echo "stage 04"
         // Docker tag and upload to snapshot repository
-        tagName = 'joseph/openapi:' + env.BUILD_NUMBER
+        tagName = 'joseph/cloud-app:' + env.BUILD_NUMBER
         docker.build(tagName)
         def artDocker= Artifactory.docker('ops02', 'AP51rcczx4RvqFz3Uc5jnH7bLFH')
         //def artDocker = Artifactory.docker server: artiServer
