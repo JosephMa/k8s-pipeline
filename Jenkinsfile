@@ -5,7 +5,6 @@ node {
      def tagName
      def sshServer
      def workspace = pwd()
-
      stage('Prepare') {
          // Variables initilization
          artiServer = Artifactory.server('jfrog-artifactory')
