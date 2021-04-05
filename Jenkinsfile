@@ -38,7 +38,7 @@ node {
          echo "stage 02"
          // Maven build
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
-         withMaven(maven: 'maven3.6.3') {
+         /*withMaven(maven: 'maven3.6.3') {
             script {
          	    withEnv(['JENKINS_NODE_COOKIE=background_job']) {
          		    sh """
@@ -57,8 +57,8 @@ node {
                 }
             }
             */
-         }
-         sh "ls -l target"
+         }*/
+         //sh "ls -l target"
          echo "build complete!"
      }
      stage('Checkout Docker') {
