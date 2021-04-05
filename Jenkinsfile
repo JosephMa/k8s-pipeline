@@ -27,8 +27,7 @@ node {
          // Maven build
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
          //sshServer = getSSHServer()
-         echo workspace
-         //sshCommand remote: sshServer, command: "cd /data/jenkins/workspace/k8s-pipeline_maste"
+         //sshCommand remote: sshServer, command: "cd "+workspace
          //sshCommand remote: sshServer, command: "mvn -Dmaven.test.skip=true clean install"
          withMaven(maven: 'maven3.6.3') {
             script {
