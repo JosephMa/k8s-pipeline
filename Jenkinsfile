@@ -31,8 +31,10 @@ node {
          //sshCommand remote: sshServer, command: "mvn -Dmaven.test.skip=true clean install"
          try {
              withMaven(maven: 'maven3.6.3') {
-                sh label: '', script: 'BUILD_ID=DONTKILLME && mvn -B -DskipTests clean package && sleep 5s'
-                sh label: '', script: 'BUILD_ID=DONTKILLME pwd && sleep 1s'
+                withEnv([‘JENKINS_NODE_COOKIE=dontkillme’]) {
+                    sh label: '', script: 'sudo mvn -B -DskipTests clean package && sleep 5s'
+                    sh label: '', script: 'pwd && sleep 1s'
+                }
              }
          }
          catch (err) {
