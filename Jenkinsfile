@@ -38,26 +38,7 @@ node {
          echo "stage 02"
          // Maven build
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
-         /*withMaven(maven: 'maven3.6.3') {
-            script {
-         	    withEnv(['JENKINS_NODE_COOKIE=background_job']) {
-         		    sh """
-         			    nohup mvn -Dmaven.test.skip=true clean install > /dev/null 2>&1 &
-         			"""
-         		}
-         	}
-            //sh "BUILD_ID=dontKillMe mvn -Dmaven.test.skip=true clean install && exit 0"
-            //sh "BUILD_ID=dontKillMe nohup mvn clean install -Dmaven.test.skip=true || true > /dev/null 2>&1 &"
-            /*withEnv(['JENKINS_NODE_COOKIE=dontkillme']){
-                def exitValue = sh(script: "nohup mvn clean install -Dmaven.test.skip=true > /dev/null 2>&1 &", returnStatus: true)
-                echo "return exitValue :${exitValue}"
-                if(exitValue != 0)
-                {
-                    error("Failure")
-                }
-            }
-            */
-         }*/
+
          echo "build complete!"
      }
      stage('Checkout Docker') {
