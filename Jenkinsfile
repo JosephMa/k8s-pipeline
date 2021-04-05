@@ -32,10 +32,11 @@ node {
          //sshCommand remote: sshServer, command: "mvn -Dmaven.test.skip=true clean install"
          script {
             withEnv(['JENKINS_NODE_COOKIE=background_job']) {
-            sh """
-                set +x
-                nohup mvn -Dmaven.test.skip=true clean install > /dev/null 2>&1 &
-            """
+                sh """
+                    set +x
+                    nohup mvn -Dmaven.test.skip=true clean install > /dev/null 2>&1 &
+                """
+            }
          }
          echo "build complete!"
      }
