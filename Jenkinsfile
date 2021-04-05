@@ -3,19 +3,10 @@ node {
      def rtMaven
      def buildInfo
      def tagName
-     //def remote = [:]
-     //remote.name = 'host'
-     //remote.host = '172.20.50.10'
-     //remote.user = 'root'
-     //remote.port = 22
-     //remote.password = ''
-     //remote.allowAnyHosts = true
-
-     //def mvnHome = tool 'maven3.6.3'
-     //env.PATH = "${mvnHome}/bin:${env.PATH}"
+     def sshServer
+     def host = '172.20.50.10'
 
      stage('Prepare') {
-
          // Variables initilization
          artiServer = Artifactory.server('jfrog-artifactory')
          rtMaven = Artifactory.newMavenBuild()
@@ -38,7 +29,8 @@ node {
          echo "stage 02"
          // Maven build
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
-
+         sshServer = getServer(host)
+         sshScript remote: sshServer, script: "pwd"
          echo "build complete!"
      }
      stage('Checkout Docker') {
@@ -89,4 +81,16 @@ node {
      	echo "stage 10"
      	echo 'please visit http://localhost:8181 to verify the result.'
      }
+}
+def getServer(ip){
+    def remote = [:]
+    remote.name = "server-${ip}"
+    remote.host = ip
+    remote.port = 22
+    remote.allowAnyHosts = true
+    withCredentials([usernamePassword(credentialsId: 'ServiceServer', passwordVariable: 'password', usernameVariable: 'userName')]) {
+        remote.user = "${userName}"
+        remote.password = "${password}"
+    }
+    return remote
 }
