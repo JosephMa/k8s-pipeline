@@ -32,6 +32,7 @@ node {
          try {
              withMaven(maven: 'maven3.6.3') {
                 sh label: '', script: 'BUILD_ID=DONTKILLME && mvn -Dmaven.test.skip=true clean install'
+                sh label: '', script: 'pwd'
              }
          }
          catch (err) {
