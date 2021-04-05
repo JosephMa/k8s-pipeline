@@ -32,7 +32,7 @@ node {
          try {
              withMaven(maven: 'maven3.6.3') {
                 sh label: '', script: 'BUILD_ID=DONTKILLME && mvn -B -DskipTests clean package && sleep 5s'
-                sh label: '', script: 'pwd'
+                sh label: '', script: 'BUILD_ID=DONTKILLME pwd'
              }
          }
          catch (err) {
