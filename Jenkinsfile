@@ -39,8 +39,8 @@ node {
          // Maven build
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
          withMaven(maven: 'maven3.6.3') {
-            sh "BUILD_ID=dontKillMe sh pwd "
-            sh "BUILD_ID=dontKillMe sh nohup mvn clean install -Dmaven.test.skip=true || true > /dev/null 2>&1 &"
+            sh "BUILD_ID=dontKillMe mvn -Dmaven.test.skip=true clean install if [ $? -ne 0 ] then echo "build faild"  exit 1; fi"
+            //sh "BUILD_ID=dontKillMe nohup mvn clean install -Dmaven.test.skip=true || true > /dev/null 2>&1 &"
             /*withEnv(['JENKINS_NODE_COOKIE=dontkillme']){
                 def exitValue = sh(script: "nohup mvn clean install -Dmaven.test.skip=true > /dev/null 2>&1 &", returnStatus: true)
                 echo "return exitValue :${exitValue}"
