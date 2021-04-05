@@ -4,6 +4,7 @@ node {
      def buildInfo
      def tagName
      def sshServer
+     def workspace = pwd()
 
      stage('Prepare') {
          // Variables initilization
@@ -15,21 +16,27 @@ node {
          rtMaven.deployer releaseRepo:'automation-mvn-solution-local', snapshotRepo:'automation-mvn-sol-snapshot-local', server: artiServer
          rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: artiServer
          rtMaven.tool = "mvn"
-
          echo "stage 00"
      }
      stage('Checkout Source') {
          echo "stage 01"
          git url: 'https://github.com/JosephMa/k8s-pipeline.git', branch: 'master'
-         //sshScript remote: remote, script: "git url: 'https://github.com/JosephMa/k8s-pipeline.git', branch: 'master'"
-         //sshScript remote: remote, script: "pwd"
      }
      stage('Build Maven') {
          echo "stage 02"
          // Maven build
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
-         sshServer = getSSHServer()
-         sshCommand remote: sshServer, command: "pwd"
+         //sshServer = getSSHServer()
+         echo workspace
+         //sshCommand remote: sshServer, command: "cd /data/jenkins/workspace/k8s-pipeline_maste"
+         //sshCommand remote: sshServer, command: "mvn -Dmaven.test.skip=true clean install"
+         script {
+            withEnv(['JENKINS_NODE_COOKIE=background_job']) {
+            sh """
+                set +x
+                nohup mvn -Dmaven.test.skip=true clean install > /dev/null 2>&1 &
+            """
+         }
          echo "build complete!"
      }
      stage('Checkout Docker') {
