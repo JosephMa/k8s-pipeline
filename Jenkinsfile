@@ -5,7 +5,7 @@ node {
      def tagName
      def sshServer
      def host = '172.20.54.163'
-     def host = '2222'
+     def port = '2222'
 
      stage('Prepare') {
          // Variables initilization
