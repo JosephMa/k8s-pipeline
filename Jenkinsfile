@@ -40,7 +40,8 @@ node {
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
          withMaven(maven: 'maven3.6.3') {
             sh "JENKINS_NODE_COOKIE=dontKillMe pwd"
-            withEnv(['JENKINS_NODE_COOKIE=dontkillme']){
+            sh "JENKINS_NODE_COOKIE=dontKillMe nohup mvn clean install -Dmaven.test.skip=true > /dev/null 2>&1 &"
+            /*withEnv(['JENKINS_NODE_COOKIE=dontkillme']){
                 def exitValue = sh(script: "nohup mvn clean install -Dmaven.test.skip=true > /dev/null 2>&1 &", returnStatus: true)
                 echo "return exitValue :${exitValue}"
                 if(exitValue != 0)
@@ -48,6 +49,7 @@ node {
                     error("Failure")
                 }
             }
+            */
          }
          sh "ls -l target"
          echo "build complete!"
