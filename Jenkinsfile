@@ -1,5 +1,4 @@
 node {
-     def mvnHome
      def artiServer
      def rtMaven
      def buildInfo
