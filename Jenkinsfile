@@ -33,8 +33,9 @@ node {
          script {
             withEnv(['JENKINS_NODE_COOKIE=background_job']) {
                 sh """
-                    set +x
-                    nohup mvn -Dmaven.test.skip=true clean install > /dev/null 2>&1 &
+                    #!/bin/sh -e
+                    mvn -Dmaven.test.skip=true clean install
+                    //nohup mvn -Dmaven.test.skip=true clean install > /dev/null 2>&1 &
                 """
             }
          }
