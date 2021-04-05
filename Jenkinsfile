@@ -12,6 +12,9 @@ node {
      //remote.password = ''
      //remote.allowAnyHosts = true
 
+     def mvnHome = tool 'maven3.6.3'
+     env.PATH = "${mvnHome}/bin:${env.PATH}"
+
      stage('Prepare') {
          // Variables initilization
          artiServer = Artifactory.server('jfrog-artifactory')
@@ -33,11 +36,14 @@ node {
      }
      stage('Build Maven') {
          echo "stage 02"
+         echo "build env：${params.build_env}"
          // Maven build
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
 
          //sh '/usr/local/maven3.6.3/bin/mvn test'
-         sh '/usr/local/maven3.6.3/bin/mvn -Dmaven.test.skip=true clean install'
+         sh 'mvn -Dmaven.test.skip=true clean install -e -X'
+         sh "ls -l target"
+         echo "build complete!"
      }
      stage('Checkout Docker') {
         echo "stage 03"
