@@ -28,7 +28,7 @@ node {
          echo "stage 02"
          // Maven build
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
-         sshServer = getServer()
+         sshServer = getSSHServer()
          sshScript remote: sshServer, script: "pwd"
          echo "build complete!"
      }
@@ -82,7 +82,7 @@ node {
      }
 }
 
-def getServer(){
+def getSSHServer(){
     def remote = [:]
     remote.name = 'host-172.20.54.163'
     remote.host = '172.20.54.163'
