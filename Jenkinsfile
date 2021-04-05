@@ -15,8 +15,6 @@ node {
      //env.PATH = "${mvnHome}/bin:${env.PATH}"
 
      stage('Prepare') {
-         label ‘jenkins server’
-         customWorkspace "${env.JOB_NAME}/${env.BUILD_NUMBER}"
 
          // Variables initilization
          artiServer = Artifactory.server('jfrog-artifactory')
