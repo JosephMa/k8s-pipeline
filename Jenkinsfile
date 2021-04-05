@@ -58,7 +58,6 @@ node {
             }
             */
          }*/
-         //sh "ls -l target"
          echo "build complete!"
      }
      stage('Checkout Docker') {
