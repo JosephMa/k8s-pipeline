@@ -5,6 +5,7 @@ node {
      def tagName
      def sshServer
      def host = '172.20.54.163'
+     def host = '2222'
 
      stage('Prepare') {
          // Variables initilization
@@ -29,7 +30,7 @@ node {
          echo "stage 02"
          // Maven build
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
-         sshServer = getServer(host)
+         sshServer = getServer(host,port)
          sshScript remote: sshServer, script: "pwd"
          echo "build complete!"
      }
@@ -82,11 +83,11 @@ node {
      	echo 'please visit http://localhost:8181 to verify the result.'
      }
 }
-def getServer(ip){
+def getServer(ip,port){
     def remote = [:]
     remote.name = "server-${ip}"
     remote.host = ip
-    remote.port = 2222
+    remote.port = port
     remote.allowAnyHosts = true
     withCredentials([usernamePassword(credentialsId: 'ServiceServer', passwordVariable: 'password', usernameVariable: 'userName')]) {
         remote.user = "${userName}"
