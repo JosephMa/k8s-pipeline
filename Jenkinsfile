@@ -11,8 +11,8 @@ node {
      //remote.password = ''
      //remote.allowAnyHosts = true
 
-     def mvnHome = tool 'maven3.6.3'
-     env.PATH = "${mvnHome}/bin:${env.PATH}"
+     //def mvnHome = tool 'maven3.6.3'
+     //env.PATH = "${mvnHome}/bin:${env.PATH}"
 
      stage('Prepare') {
          // Variables initilization
@@ -37,8 +37,9 @@ node {
          echo "stage 02"
          // Maven build
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
-
-         sh "mvn clean install -Dmaven.test.skip=true"
+         withMaven(maven: 'maven3.6.3') {
+            sh "mvn clean install -Dmaven.test.skip=true"
+         }
          sh "ls -l target"
          echo "build complete!"
      }
