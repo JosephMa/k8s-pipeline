@@ -39,11 +39,13 @@ node {
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
          withMaven(maven: 'maven3.6.3') {
             //sh "mvn clean install -Dmaven.test.skip=true"
-            def exitValue = sh(script: "nohup mvn clean install -Dmaven.test.skip=true > /dev/null 2>&1 &", returnStatus: true)
-            echo "return exitValue :${exitValue}"
-            if(exitValue != 0)
-            {
-               error("Failure")
+            withEnv(['JENKINS_NODE_COOKIE=dontkillme']){
+                def exitValue = sh(script: "nohup mvn clean install -Dmaven.test.skip=true > /dev/null 2>&1 &", returnStatus: true)
+                echo "return exitValue :${exitValue}"
+                if(exitValue != 0)
+                {
+                    error("Failure")
+                }
             }
          }
          sh "ls -l target"
