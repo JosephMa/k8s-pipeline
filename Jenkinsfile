@@ -40,7 +40,7 @@ node {
          withMaven(maven: 'maven3.6.3') {
             //sh "mvn clean install -Dmaven.test.skip=true"
             withEnv(['JENKINS_NODE_COOKIE=dontkillme']){
-                def exitValue = sh(script: "mvn clean -Dmaven.test.skip=true &", returnStatus: true)
+                def exitValue = sh(script: "mvn test &", returnStatus: true)
                 //def exitValue = sh(script: "nohup mvn clean install -Dmaven.test.skip=true > /dev/null 2>&1 &", returnStatus: true)
                 echo "return exitValue :${exitValue}"
                 if(exitValue != 0)
