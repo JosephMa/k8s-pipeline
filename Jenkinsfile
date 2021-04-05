@@ -39,7 +39,7 @@ node {
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
          withMaven(maven: 'maven3.6.3') {
             //sh "mvn clean install -Dmaven.test.skip=true"
-            def exitValue = sh(script: "mvn clean install -Dmaven.test.skip=true &>/dev/null", returnStatus: true)
+            def exitValue = sh(script: "nohup mvn clean install -Dmaven.test.skip=true &>/dev/null", returnStatus: true)
             echo "return exitValue :${exitValue}"
             if(exitValue != 0)
             {
