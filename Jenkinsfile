@@ -32,7 +32,7 @@ node {
          withMaven(maven: 'maven3.6.3') {
             //sh label: '', script: 'BUILD_ID=DONTKILLME'
             //sh label: '', script: 'pwd'
-            sh label: '', script: 'BUILD_ID=DONTKILLME && mvn -Dmaven.test.skip=true clean install'
+            sh label: '', script: 'BUILD_ID=DONTKILLME && mvn -Dmaven.test.skip=true clean install && exit 0'
          }
          echo "build complete!"
      }
