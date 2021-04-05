@@ -35,13 +35,11 @@ node {
      }
      stage('Build Maven') {
          echo "stage 02"
-         echo "build env：${params.build_env}"
          // Maven build
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
 
-         //sh '/usr/local/maven3.6.3/bin/mvn test'
-         sh 'mvn -Dmaven.test.skip=true clean install -e -X'
-         sh 'ls -l target'
+         sh "mvn clean install -Dmaven.test.skip=true"
+         sh "ls -l target"
          echo "build complete!"
      }
      stage('Checkout Docker') {
