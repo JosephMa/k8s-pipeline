@@ -29,7 +29,6 @@ node {
      }
      stage('Checkout Source') {
          echo "stage 01"
-         echo $BUILD_ID
          git url: 'https://github.com/JosephMa/k8s-pipeline.git', branch: 'master'
          //sshScript remote: remote, script: "git url: 'https://github.com/JosephMa/k8s-pipeline.git', branch: 'master'"
          //sshScript remote: remote, script: "pwd"
@@ -39,7 +38,6 @@ node {
          // Maven build
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
          withMaven(maven: 'maven3.6.3') {
-            echo $BUILD_ID
             //sh "mvn clean install -Dmaven.test.skip=true"
             def exitValue = sh(script: "nohup mvn clean install -Dmaven.test.skip=true > /dev/null 2>&1 &", returnStatus: true)
             echo "return exitValue :${exitValue}"
