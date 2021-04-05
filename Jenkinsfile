@@ -30,13 +30,14 @@ node {
          echo workspace
          //sshCommand remote: sshServer, command: "cd /data/jenkins/workspace/k8s-pipeline_maste"
          //sshCommand remote: sshServer, command: "mvn -Dmaven.test.skip=true clean install"
-         script {
-            withEnv(['JENKINS_NODE_COOKIE=background_job']) {
-                sh """
-                    #!/bin/sh -e
-                    mvn -Dmaven.test.skip=true clean install
-                    //nohup mvn -Dmaven.test.skip=true clean install > /dev/null 2>&1 &
-                """
+         withMaven(maven: 'maven3.6.3') {
+            script {
+                withEnv(['JENKINS_NODE_COOKIE=background_job']) {
+                    sh """
+                        #!/bin/sh -e
+                        mvn -Dmaven.test.skip=true clean install
+                    """
+                }
             }
          }
          echo "build complete!"
