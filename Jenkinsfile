@@ -86,7 +86,7 @@ def getServer(ip){
     def remote = [:]
     remote.name = "server-${ip}"
     remote.host = ip
-    remote.port = 22
+    remote.port = 2222
     remote.allowAnyHosts = true
     withCredentials([usernamePassword(credentialsId: 'ServiceServer', passwordVariable: 'password', usernameVariable: 'userName')]) {
         remote.user = "${userName}"
