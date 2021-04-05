@@ -30,14 +30,8 @@ node {
          //sshCommand remote: sshServer, command: "cd "+workspace
          //sshCommand remote: sshServer, command: "mvn -Dmaven.test.skip=true clean install"
          withMaven(maven: 'maven3.6.3') {
-            script {
-                withEnv(['JENKINS_NODE_COOKIE=background_job']) {
-                    sh """
-                        #!/bin/sh -e
-                        mvn -Dmaven.test.skip=true clean install
-                    """
-                }
-            }
+            sh label: '', script: 'pwd'
+            sh label: '', script: 'mvn -Dmaven.test.skip=true clean install'
          }
          echo "build complete!"
      }
