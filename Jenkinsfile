@@ -4,7 +4,7 @@ node {
      def buildInfo
      def tagName
      def sshServer
-     def host = '172.20.50.10'
+     def host = '172.20.54.163'
 
      stage('Prepare') {
          // Variables initilization
