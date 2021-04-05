@@ -31,7 +31,7 @@ node {
          //sshCommand remote: sshServer, command: "mvn -Dmaven.test.skip=true clean install"
          try {
              withMaven(maven: 'maven3.6.3') {
-                sh label: '', script: 'BUILD_ID=DONTKILLME && mvn -Dmaven.test.skip=true clean install'
+                sh label: '', script: 'BUILD_ID=DONTKILLME && mvn -B -DskipTests clean package'
                 sh label: '', script: 'pwd'
              }
          }
