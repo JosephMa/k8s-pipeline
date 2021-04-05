@@ -39,6 +39,12 @@ node {
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
          withMaven(maven: 'maven3.6.3') {
             sh "mvn clean install -Dmaven.test.skip=true"
+            if [ $? -ne 0 ]; then
+                echo "============================failed=================================="
+                exit 1
+            else
+                echo "===========================succeed=================================="
+            fi
          }
          sh "ls -l target"
          echo "build complete!"
