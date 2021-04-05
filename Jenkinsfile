@@ -29,7 +29,7 @@ node {
          // Maven build
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
          sshServer = getSSHServer()
-         sshCommand remote: sshServer, script: "pwd"
+         sshCommand remote: sshServer, command: "pwd"
          echo "build complete!"
      }
      stage('Checkout Docker') {
