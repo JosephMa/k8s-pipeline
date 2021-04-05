@@ -29,10 +29,13 @@ node {
          //sshServer = getSSHServer()
          //sshCommand remote: sshServer, command: "cd "+workspace
          //sshCommand remote: sshServer, command: "mvn -Dmaven.test.skip=true clean install"
-         withMaven(maven: 'maven3.6.3') {
-            //sh label: '', script: 'BUILD_ID=DONTKILLME'
-            //sh label: '', script: 'pwd'
-            sh label: '', script: 'BUILD_ID=DONTKILLME && mvn -Dmaven.test.skip=true clean install && exit 0'
+         try {
+             withMaven(maven: 'maven3.6.3') {
+                sh label: '', script: 'BUILD_ID=DONTKILLME && mvn -Dmaven.test.skip=true clean install && exit 0'
+             }
+         }
+         catch (err) {
+             throw err
          }
          echo "build complete!"
      }
