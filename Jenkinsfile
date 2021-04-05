@@ -46,7 +46,7 @@ node {
          			"""
          		}
          	}
-            //sh "BUILD_ID=dontKillMe mvn -Dmaven.test.skip=true clean install & exit 0"
+            //sh "BUILD_ID=dontKillMe mvn -Dmaven.test.skip=true clean install && exit 0"
             //sh "BUILD_ID=dontKillMe nohup mvn clean install -Dmaven.test.skip=true || true > /dev/null 2>&1 &"
             /*withEnv(['JENKINS_NODE_COOKIE=dontkillme']){
                 def exitValue = sh(script: "nohup mvn clean install -Dmaven.test.skip=true > /dev/null 2>&1 &", returnStatus: true)
