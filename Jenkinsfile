@@ -29,11 +29,20 @@ node {
          //sshCommand remote: sshServer, command: "cd "+workspace
          //sshCommand remote: sshServer, command: "mvn -Dmaven.test.skip=true clean install"
          try {
-             withMaven(maven: 'maven3.6.3') {
-                sh 'JENKINS_NODE_COOKIE=dontKillMe nohup mvn -B -DskipTests clean package > run.log 2>&1 &'
+              mvnHome = tool 'maven3.6.3'
+              echo "maven home is ${mvnHome}"
+              echo "${env.PATH}"
+              def JAVA_HOME
+              JAVA_HOME= tool 'JDK1.8'
+              echo "${JAVA_HOME}"
+              env.JAVA_HOME=JAVA_HOME
+              sh "pwd"
+              sh "'${mvnHome}/bin/mvn' clean package -DskipTests -X"
+             //withMaven(maven: 'maven3.6.3') {
+                //sh 'JENKINS_NODE_COOKIE=dontKillMe nohup mvn -B -DskipTests clean package > run.log 2>&1 &'
                 //sh label: '', script: 'mvn -B -DskipTests clean package && sleep 5s'
                 //sh label: '', script: 'pwd && sleep 1s'
-             }
+             //}
          }
          catch (err) {
              throw err
