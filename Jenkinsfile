@@ -37,6 +37,7 @@ node {
                                 sh "mvn clean package -DskipTests"
                             }
                         }
+                    }
                 }
                 //sh 'JENKINS_NODE_COOKIE=dontKillMe nohup mvn -B -DskipTests clean package > run.log 2>&1 &'
                 //sh label: '', script: 'mvn -B -DskipTests clean package && sleep 5s'
