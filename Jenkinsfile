@@ -11,8 +11,7 @@ pipeline {
         }
         stage('clean env1') {
           steps {
-            sh '''echo "this is clean env1"
-sleep 10'''
+            sh '''echo "this is clean env1" sleep 10'''
           }
         }
       }
@@ -32,9 +31,7 @@ sleep 10'''
     }
     stage('build code') {
       steps {
-        sh '''echo "build code start"
-sleep 10
-echo "build code finish"'''
+        sh '''echo "build code start" sleep 10 echo "build code finish"'''
       }
     }
     stage('stg deployment') {
@@ -42,27 +39,21 @@ echo "build code finish"'''
         stage('deployment') {
           steps {
             timeout(time: 50, activity: true) {
-              sh '''echo "start deploy"
-sleep 60
-echo "deploy success"'''
+              sh '''echo "start deploy" sleep 60 echo "deploy success"'''
             }
 
           }
         }
         stage('stg deployment1') {
           steps {
-            sh '''echo "error deployment"
-exit 1
-echo "error deployment exit"'''
+            sh '''echo "error deployment" exit 1 echo "error deployment exit"'''
           }
         }
       }
     }
     stage('prd deployment') {
       steps {
-        sh '''echo "start prd deployment "
-sleep 10
-echo "prd deployment success"'''
+        sh '''echo "start prd deployment " sleep 10 echo "prd deployment success"'''
       }
     }
   }
