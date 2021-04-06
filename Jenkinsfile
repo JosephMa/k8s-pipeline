@@ -31,10 +31,10 @@ node {
          try {
              withMaven(maven: 'maven3.6.3') {
                 script {
-                    timeout(2) {
+                    timeout(1) {
                 	    waitUntil {
                             script {
-                                sh "mvn clean package -DskipTests"
+                                sh "mvn clean package -DskipTests && exit 1"
                             }
                         }
                     }
@@ -56,7 +56,15 @@ node {
         echo "stage 04"
         // Docker tag and upload to snapshot repository
         tagName = 'joseph/cloud-app:' + env.BUILD_NUMBER
-        docker.build(tagName)
+        script {
+            timeout(1) {
+                waitUntil {
+                    script {
+                        docker.build(tagName)
+                    }
+                }
+            }
+        }
         //sshCommand remote: sshServer, command: "docker build -t "+tagName
         def artDocker= Artifactory.docker('ops02', 'AP51rcczx4RvqFz3Uc5jnH7bLFH')
         //def artDocker = Artifactory.docker server: artiServer
