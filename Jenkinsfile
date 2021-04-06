@@ -11,7 +11,7 @@ pipeline {
         }
         stage('clean env1') {
           steps {
-            sh '''nohup echo "this is clean env1" &'''
+            sh 'nohup echo "this is clean env1" &'
           }
         }
       }
