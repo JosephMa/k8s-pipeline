@@ -30,7 +30,14 @@ node {
          //sshCommand remote: sshServer, command: "mvn -Dmaven.test.skip=true clean install"
          try {
              withMaven(maven: 'maven3.6.3') {
-                sh "mvn clean package -DskipTests -X && exit 1"
+                script {
+                    timeout(2) {
+                	    waitUntil {
+                            script {
+                                sh "mvn clean package -DskipTests"
+                            }
+                        }
+                }
                 //sh 'JENKINS_NODE_COOKIE=dontKillMe nohup mvn -B -DskipTests clean package > run.log 2>&1 &'
                 //sh label: '', script: 'mvn -B -DskipTests clean package && sleep 5s'
                 //sh label: '', script: 'pwd && sleep 1s'
