@@ -6,12 +6,12 @@ pipeline {
         stage('clean env') {
           steps {
             echo 'test'
-            sh 'echo "this is test"'
+            sh 'nohup echo "this is test" &'
           }
         }
         stage('clean env1') {
           steps {
-            sh '''echo "this is clean env1" sleep 10'''
+            sh '''nohup echo "this is clean env1" &'''
           }
         }
       }
