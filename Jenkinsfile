@@ -34,7 +34,8 @@ node {
                     timeout(1) {
                 	    waitUntil {
                             script {
-                                sh "mvn clean package -DskipTests && exit 1"
+                                sh "mvn clean package -DskipTests || true"
+                                sh "pwd"
                             }
                         }
                     }
