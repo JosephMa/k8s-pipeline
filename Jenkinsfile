@@ -31,18 +31,15 @@ node {
          try {
              withMaven(maven: 'maven3.6.3') {
                 script {
-                    timeout(1) {
+                    timeout(2) {
                 	    waitUntil {
                             script {
-                                sh "mvn clean package -DskipTests || true"
+                                sh "mvn -B clean install -DskipTests"
                             }
                         }
                     }
                     sh "pwd"
                 }
-                //sh 'JENKINS_NODE_COOKIE=dontKillMe nohup mvn -B -DskipTests clean package > run.log 2>&1 &'
-                //sh label: '', script: 'mvn -B -DskipTests clean package && sleep 5s'
-                //sh label: '', script: 'pwd && sleep 1s'
              }
          }
          catch (err) {
