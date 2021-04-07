@@ -49,6 +49,7 @@ node {
             //def artDocker = Artifactory.docker server: artiServer
             def server_url="http://172.17.0.4:8082/artifactory"
             def artDocker = Artifactory.newServer url: "${server_url}", username: 'ops01', password: 'AP3EdPXbkcvejeXEvKTMFmx2EFo'
+            buildInfo = Artifactory.newBuildInfo()
             tagName = 'joseph/cloud-app:' + env.BUILD_NUMBER
             docker.build(tagName)
             sleep 5
