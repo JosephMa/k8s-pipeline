@@ -30,16 +30,8 @@ node {
          //sshCommand remote: sshServer, command: "mvn -Dmaven.test.skip=true clean install"
          try {
              withMaven(maven: 'maven3.6.3') {
-                script {
-                    timeout(2) {
-                	    waitUntil {
-                            script {
-                                sh "mvn -B clean install -DskipTests"
-                            }
-                        }
-                    }
-                    sh "pwd"
-                }
+                sh "mvn -B clean install -DskipTests"
+                sh "pwd"
              }
          }
          catch (err) {
