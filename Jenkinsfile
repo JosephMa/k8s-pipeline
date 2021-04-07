@@ -53,8 +53,8 @@ node {
             docker.build(tagName)
             sleep 6
             echo tagName
-            artDocker.push(tagName, 'docker-stage', buildInfo)
-            //artDocker.push tagName,'docker-stage'
+            //artDocker.push(tagName, 'docker-stage', buildInfo)
+            artDocker.push tagName,'docker-stage'
             sleep 3
             artiServer.publishBuildInfo buildInfo
         //}
