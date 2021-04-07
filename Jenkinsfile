@@ -47,9 +47,11 @@ node {
         // Docker tag and upload to snapshot repository
         tagName = 'joseph/cloud-app:' + env.BUILD_NUMBER
         docker.build(tagName)
-        //def artDocker= Artifactory.docker('ops02', 'AP51rcczx4RvqFz3Uc5jnH7bLFH')
-        //def artDocker = Artifactory.docker server: artiServer
-        artiServer.push(tagName, 'docker-stage', buildInfo)
+        withCredentials([usernamePassword(credentialsId: jfrog, usernameVariable: 'ops02', passwordVariable: 'AP51rcczx4RvqFz3Uc5jnH7bLFH')]){
+            def artDocker = Artifactory.docker server: artiServer
+            artDocker.push(tagName, 'docker-stage', buildInfo)
+        }
+        sleep(5)
         artiServer.publishBuildInfo buildInfo
      }
      stage('Build and Deploy') {
