@@ -45,13 +45,14 @@ node {
      stage('Build Image') {
         echo "stage 04"
         // Docker tag and upload to snapshot repository
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jfrog', usernameVariable: 'ops01', passwordVariable: 'AP3EdPXbkcvejeXEvKTMFmx2EFo']]){
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jfrog-docker', usernameVariable: 'ops01', passwordVariable: 'AP3EdPXbkcvejeXEvKTMFmx2EFo']]){
             def artDocker = Artifactory.docker server: artiServer
             tagName = 'joseph/cloud-app:' + env.BUILD_NUMBER
             docker.build(tagName)
             sleep 6
             echo tagName
-            artDocker.push(tagName, 'docker-stage', buildInfo)
+            //artDocker.push(tagName, 'docker-stage', buildInfo)
+            artDocker.push tagName,'docker-stage'
             sleep 3
             artiServer.publishBuildInfo buildInfo
         }
