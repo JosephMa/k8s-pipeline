@@ -47,8 +47,9 @@ node {
         // Docker tag and upload to snapshot repository
         //withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jfrog-docker', usernameVariable: 'ops01', passwordVariable: 'AP3EdPXbkcvejeXEvKTMFmx2EFo']]){
             def server_url="http://172.17.0.4:8082/artifactory"
-            def artiServer2 = Artifactory.newServer url: "${server_url}", username: 'ops01', password: 'AP3EdPXbkcvejeXEvKTMFmx2EFo'
-            def artDocker = Artifactory.docker server: artiServer2
+            //def artiServer2 = Artifactory.newServer url: "${server_url}", username: 'ops01', password: 'AP3EdPXbkcvejeXEvKTMFmx2EFo'
+            //def artDocker = Artifactory.docker server: artiServer2
+            Artifactory.docker('ops01', 'AP3EdPXbkcvejeXEvKTMFmx2EFo')
             tagName = 'joseph/cloud-app:' + env.BUILD_NUMBER
             docker.build(tagName)
             sleep 5
