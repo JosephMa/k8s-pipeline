@@ -55,7 +55,7 @@ node {
             sleep 5
             echo tagName
             //artDocker.push(tagName, 'docker-stage', buildInfo)
-            def buildInfo = artDocker.push tagName, 'docker-stage'
+            buildInfo = artDocker.push tagName, 'docker-stage'
             sleep 3
             artiServer.publishBuildInfo buildInfo
         //}
