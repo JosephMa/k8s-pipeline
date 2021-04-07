@@ -45,7 +45,7 @@ node {
      stage('Build Image') {
         echo "stage 04"
         // Docker tag and upload to snapshot repository
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jfrog', usernameVariable: 'ops01', passwordVariable: 'Joseph@327']]){
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'jfrog', usernameVariable: 'ops01', passwordVariable: 'AP3EdPXbkcvejeXEvKTMFmx2EFo']]){
             def artDocker = Artifactory.docker server: artiServer
             tagName = 'joseph/cloud-app:' + env.BUILD_NUMBER
             docker.build(tagName)
