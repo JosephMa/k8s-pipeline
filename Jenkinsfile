@@ -51,7 +51,7 @@ node {
             def artDocker = Artifactory.newServer url: "${server_url}", username: 'ops01', password: 'AP3EdPXbkcvejeXEvKTMFmx2EFo'
             tagName = 'joseph/cloud-app:' + env.BUILD_NUMBER
             docker.build(tagName)
-            sleep 6
+            sleep 5
             echo tagName
             artDocker.push(tagName, 'docker-stage', buildInfo)
             sleep 3
