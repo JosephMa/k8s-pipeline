@@ -48,8 +48,8 @@ node {
         tagName = 'joseph/cloud-app:' + env.BUILD_NUMBER
         docker.build(tagName)
         //def artDocker= Artifactory.docker('ops02', 'AP51rcczx4RvqFz3Uc5jnH7bLFH')
-        def artDocker = Artifactory.docker server: artiServer
-        artDocker.push(tagName, 'docker-stage', buildInfo)
+        //def artDocker = Artifactory.docker server: artiServer
+        artiServer.push(tagName, 'docker-stage', buildInfo)
         artiServer.publishBuildInfo buildInfo
      }
      stage('Build and Deploy') {
