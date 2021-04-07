@@ -49,10 +49,10 @@ node {
             def artDocker = Artifactory.docker server: artiServer
             tagName = 'joseph/cloud-app:' + env.BUILD_NUMBER
             docker.build(tagName)
-            sleep 5
+            sleep 6
             echo tagName
             artDocker.push(tagName, 'docker-stage', buildInfo)
-            sleep 2
+            sleep 3
             artiServer.publishBuildInfo buildInfo
         }
      }
