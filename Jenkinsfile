@@ -48,7 +48,7 @@ node {
         tagName = 'joseph/cloud-app:' + env.BUILD_NUMBER
         docker.build(tagName)
         echo "docker build complete!"
-        withCredentials([usernamePassword(credentialsId: 'jfrog', usernameVariable: 'ops02', passwordVariable: 'AP51rcczx4RvqFz3Uc5jnH7bLFH')]){
+        withCredentials([usernamePassword(credentialsId: 'jfrog', usernameVariable: 'ops01', passwordVariable: 'AP3EdPXbkcvejeXEvKTMFmx2EFo')]){
             def artDocker = Artifactory.docker server: artiServer
             artDocker.push(tagName, 'docker-stage', buildInfo)
         }
