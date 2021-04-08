@@ -45,9 +45,9 @@ node {
      stage('Build Image') {
         echo "stage 04"
         // Docker tag and upload to snapshot repository
-        //def server_url="http://172.17.0.4:8082/artifactory"
-        //def artiServer2 = Artifactory.newServer url: "${server_url}", username: 'ops01', password: 'AP3EdPXbkcvejeXEvKTMFmx2EFo'
-        def artDocker = Artifactory.docker server: artiServer
+        def server_url="http://172.17.0.4:8082/artifactory"
+        def artiServer2 = Artifactory.newServer url: "${server_url}", username: 'ops01', password: 'AP6BUJfR9Yz2wiZBUwJtWZoTrTt'
+        def artDocker = Artifactory.docker server: artiServer2
         tagName = 'joseph/cloud-app:' + env.BUILD_NUMBER
         docker.build(tagName)
         sleep 5
