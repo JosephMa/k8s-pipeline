@@ -45,7 +45,7 @@ node {
      stage('Build Image') {
         echo "stage 04"
         // Docker tag and upload to snapshot repository
-        def server_url="http://127.0.0.1:8081/artifactory"
+        def server_url="127.0.0.1:8081/artifactory"
         def repo="docker-stage"
         //def artiServer2 = Artifactory.newServer url: "${server_url}", username: 'ops01', password: 'AP6BUJfR9Yz2wiZBUwJtWZoTrTt'
         //def artDocker = Artifactory.docker server: artiServer2
