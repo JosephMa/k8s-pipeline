@@ -56,7 +56,7 @@ node {
         //buildInfo = artDocker.push tagName, 'docker-stage'
         def image = "172.17.0.4:8082/artifactory/docker-stage/" + "${tagName}"
         echo image
-        docker push image
+        docker push "${image}"
         //sleep 3
         //artiServer.publishBuildInfo buildInfo
      }
