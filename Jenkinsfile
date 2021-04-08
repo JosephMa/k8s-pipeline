@@ -50,8 +50,8 @@ node {
         //artiServer.publishBuildInfo buildInfo
         //buildInfo = artDocker.push tagName, 'docker-stage'
 
-        def server_url="127.0.0.1:8081/artifactory"
-        def repo="docker-stage"
+        def server_url = "127.0.0.1:8081/artifactory"
+        def repo = "docker-stage"
         tagName = 'joseph/cloud-app:' + env.BUILD_NUMBER
         def tagImage = "${server_url}" + "/" + "${repo}"+"/" + "${tagName}"
         echo tagImage
