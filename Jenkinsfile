@@ -45,20 +45,27 @@ node {
      stage('Build Image') {
         echo "stage 04"
         // Docker tag and upload to snapshot repository
-        def server_url="http://172.17.0.4:8082/artifactory"
-        def artiServer2 = Artifactory.newServer url: "${server_url}", username: 'ops01', password: 'AP6BUJfR9Yz2wiZBUwJtWZoTrTt'
-        def artDocker = Artifactory.docker server: artiServer2
+        def server_url="http://127.0.0.1:8081/artifactory"
+        def repo="docker-stage"
+        //def artiServer2 = Artifactory.newServer url: "${server_url}", username: 'ops01', password: 'AP6BUJfR9Yz2wiZBUwJtWZoTrTt'
+        //def artDocker = Artifactory.docker server: artiServer2
         tagName = 'joseph/cloud-app:' + env.BUILD_NUMBER
         docker.build(tagName)
         sleep 5
         echo tagName
-        artDocker.push(tagName, 'docker-stage', buildInfo)
+        //artDocker.push(tagName, 'docker-stage', buildInfo)
+        //artiServer.publishBuildInfo buildInfo
         //buildInfo = artDocker.push tagName, 'docker-stage'
-        //def image = "172.17.0.4:8082/artifactory/docker-stage/" + "${tagName}"
-        //echo image
-        //docker push "${image}"
-        sleep 3
-        artiServer.publishBuildInfo buildInfo
+        def tagImage = "${server_ur}"+"/"+"${repo}"+"/" + "${tagName}"
+        echo tagImage
+        //sleep 3
+
+        withCredentials([usernamePassword(credentialsId: 'docker-register', passwordVariable: 'dockerPassword', usernameVariable: 'dockerUser')]) {
+            sh "docker login -u ${dockerUser} -p ${dockerPassword} 127.0.0.1:8081"
+            sh "docker tag ${tagImage}"
+            sh "docker push ${tagImage}"
+            sh "docker rm ${tagImage}"
+        }
      }
      stage('Build and Deploy') {
         echo "stage 05"
