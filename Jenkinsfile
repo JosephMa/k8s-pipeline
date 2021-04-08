@@ -56,7 +56,7 @@ node {
         //artDocker.push(tagName, 'docker-stage', buildInfo)
         //artiServer.publishBuildInfo buildInfo
         //buildInfo = artDocker.push tagName, 'docker-stage'
-        def tagImage = "${server_ur}"+"/"+"${repo}"+"/" + "${tagName}"
+        def tagImage = "${server_url}"+"/"+"${repo}"+"/" + "${tagName}"
         echo tagImage
         //sleep 3
 
