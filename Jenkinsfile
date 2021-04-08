@@ -62,7 +62,6 @@ node {
             sh "docker login -u ${dockerUser} -p ${dockerPassword} 127.0.0.1:8081"
             sh "docker tag ${tagName} ${tagImage}"
             sh "docker push ${tagImage}"
-            sh "docker rmi ${tagName}"
             sh "docker rmi ${tagImage}"
         }
      }
