@@ -30,7 +30,7 @@ node {
          //sshCommand remote: sshServer, command: "mvn -Dmaven.test.skip=true clean install"
          try {
              withMaven(maven: 'maven3.6.3') {
-                sh "mvn -B clean install -DskipTests"
+                sh "mvn -B clean package -DskipTests"
                 sh "pwd"
              }
          }
@@ -47,18 +47,18 @@ node {
         // Docker tag and upload to snapshot repository
         //def server_url="http://172.17.0.4:8082/artifactory"
         //def artiServer2 = Artifactory.newServer url: "${server_url}", username: 'ops01', password: 'AP3EdPXbkcvejeXEvKTMFmx2EFo'
-        //def artDocker = Artifactory.docker server: artiServer
+        def artDocker = Artifactory.docker server: artiServer
         tagName = 'joseph/cloud-app:' + env.BUILD_NUMBER
         docker.build(tagName)
         sleep 5
         echo tagName
-        //artDocker.push(tagName, 'docker-stage', buildInfo)
+        artDocker.push(tagName, 'docker-stage', buildInfo)
         //buildInfo = artDocker.push tagName, 'docker-stage'
         //def image = "172.17.0.4:8082/artifactory/docker-stage/" + "${tagName}"
         //echo image
         //docker push "${image}"
-        //sleep 3
-        //artiServer.publishBuildInfo buildInfo
+        sleep 3
+        artiServer.publishBuildInfo buildInfo
      }
      stage('Build and Deploy') {
         echo "stage 05"
