@@ -62,7 +62,7 @@ node {
 
         withCredentials([usernamePassword(credentialsId: 'docker-register', passwordVariable: 'dockerPassword', usernameVariable: 'dockerUser')]) {
             sh "docker login -u ${dockerUser} -p ${dockerPassword} 127.0.0.1:8081"
-            sh "docker tag ${tagImage}"
+            sh "docker tag ${tagName} ${tagImage}"
             sh "docker push ${tagImage}"
             sh "docker rm ${tagImage}"
         }
