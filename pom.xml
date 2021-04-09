@@ -80,9 +80,16 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
-          <skip>true</skip>
-          <fork>true</fork>
+          <includeSystemScope>true</includeSystemScope>
+          <mainClass>com.joseph.cloud.Application</mainClass>
           <addResources>true</addResources>
         </configuration>
       </plugin>
