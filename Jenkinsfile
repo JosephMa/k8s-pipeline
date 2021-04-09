@@ -71,17 +71,17 @@ node {
      stage('Testing App') {
         echo "stage 06"
         // Smoke test
-        docker.image(tagName).withRun('-p 8181:8080') {
-            sleep 5
-            sshServer = getSSHServer()
-            sshCommand remote: sshServer, command: "curl http://127.0.0.1:8181"
+        //docker.image(tagName).withRun('-p 8181:8080') {
+            //sleep 5
             //sh 'curl "http://127.0.0.1:8181"'
-        }
+        //}
 
-        //sh "docker run --name cloud-app -d -p 8181:8080 ${tagName}"
-        //sleep 3
+        sh "docker run --name cloud-app -d -p 8181:8080 ${tagName}"
+        sleep 3
+        sshServer = getSSHServer()
+        sshCommand remote: sshServer, command: "curl http://127.0.0.1:8181"
         //sh 'curl "http://127.0.0.1:8181"'
-        //sh "docker rmi cloud-app"
+        sh "docker rmi cloud-app"
      }
      stage('Promotions') {
         echo "stage 07"
