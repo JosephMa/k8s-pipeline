@@ -79,11 +79,11 @@ node {
      stage('Promotions') {
         echo "stage 07"
         sh 'sed -i "s/{tag}/${BUILD_ID}/g" docker-promote.json'
-        sh 'curl  -X POST -H \"Content-Type: application/json\"  http://localhost:8082/artifactory/docker-stage/v2/promote -d @docker-promote.json -u ops02:AP51rcczx4RvqFz3Uc5jnH7bLFH'
+        sh 'curl  -X POST -H \"Content-Type: application/json\"  http://localhost:8082/artifactory/docker-stage/v2/promote -d @docker-promote.json -u ops01:AP6BUJfR9Yz2wiZBUwJtWZoTrTt'
      }
      stage('Distribute') {
      	echo "stage 08"
-     	sh 'curl -O -u ops02:AP51rcczx4RvqFz3Uc5jnH7bLFH -X GET http://localhost:8082/artifactory/kube-config/1.0/app.cfg'
+     	sh 'curl -O -u ops01:AP6BUJfR9Yz2wiZBUwJtWZoTrTt -X GET http://localhost:8082/artifactory/kube-config/1.0/app.cfg'
         sh 'kubectl -s kube-master:8080 --namespace=devops create configmap app-config --from-literal=$(cat app.cfg)'
      }
      stage('Deployment') {
