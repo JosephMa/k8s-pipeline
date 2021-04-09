@@ -75,6 +75,7 @@ node {
         sleep 3
         sshServer = getSSHServer()
         sshCommand remote: sshServer, command: "curl http://127.0.0.1:8181"
+        sleep 1
         sh "docker stop cloud-app"
         sh "docker rm cloud-app"
      }
