@@ -83,7 +83,7 @@ node {
      }
      stage('Distribute') {
      	echo "stage 08"
-     	sh 'curl -O -u ops01:AP6BUJfR9Yz2wiZBUwJtWZoTrTt -X GET http://localhost:8082/artifactory/kube-config/1.0/app.cfg'
+     	//sh 'curl -O -u ops01:AP6BUJfR9Yz2wiZBUwJtWZoTrTt -X GET http://localhost:8082/artifactory/kube-config/1.0/app.cfg'
         sh 'kubectl -s kube-master:8080 --namespace=devops create configmap app-config --from-literal=$(cat app.cfg)'
      }
      stage('Deployment') {
