@@ -81,7 +81,7 @@ node {
         sshServer = getSSHServer()
         sshCommand remote: sshServer, command: "curl http://127.0.0.1:8181"
         //sh 'curl "http://127.0.0.1:8181"'
-        sh "docker rmi cloud-app"
+        sh "docker rm cloud-app"
      }
      stage('Promotions') {
         echo "stage 07"
