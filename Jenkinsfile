@@ -75,6 +75,7 @@ node {
         sleep 3
         sshServer = getSSHServer()
         sshCommand remote: sshServer, command: "curl http://127.0.0.1:8181"
+        sh "curl http://172.27.244.233:8181"
         sleep 1
         sh "docker stop cloud-app"
         sh "docker rm cloud-app"
@@ -82,7 +83,7 @@ node {
      stage('Promotions') {
         echo "stage 07"
         sh 'sed -i "s/{tag}/${BUILD_ID}/g" docker-promote.json'
-        sh 'curl  -X POST -H \"Content-Type: application/json\"  http://localhost:8082/artifactory/docker-stage/v2/promote -d @docker-promote.json -u ops01:AP6BUJfR9Yz2wiZBUwJtWZoTrTt'
+        sh 'curl  -X POST -H \"Content-Type: application/json\"  http://172.27.244.233:8082/artifactory/docker-stage/v2/promote -d @docker-promote.json -u ops01:AP6BUJfR9Yz2wiZBUwJtWZoTrTt'
      }
      stage('Distribute') {
      	echo "stage 08"
