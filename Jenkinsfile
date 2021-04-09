@@ -71,15 +71,17 @@ node {
      stage('Testing App') {
         echo "stage 06"
         // Smoke test
-        //docker.image(tagName).withRun('-p 8181:8080') {
-        //    sleep 5
-        //    sh 'curl "http://127.0.0.1:8181"'
-        //}
+        docker.image(tagName).withRun('-p 8181:8080') {
+            sleep 5
+            sshServer = getSSHServer()
+            sshCommand remote: sshServer, command: "curl http://127.0.0.1:8181"
+            //sh 'curl "http://127.0.0.1:8181"'
+        }
 
-        sh "docker run --name cloud-app -d -p 8181:8080 ${tagName}"
-        sleep 3
-        sh 'curl "http://127.0.0.1:8181"'
-        sh "docker rmi cloud-app"
+        //sh "docker run --name cloud-app -d -p 8181:8080 ${tagName}"
+        //sleep 3
+        //sh 'curl "http://127.0.0.1:8181"'
+        //sh "docker rmi cloud-app"
      }
      stage('Promotions') {
         echo "stage 07"
@@ -109,8 +111,8 @@ node {
 
 def getSSHServer(){
     def remote = [:]
-    remote.name = 'host-172.20.54.163'
-    remote.host = '172.20.54.163'
+    remote.name = 'host-172.27.244.233'
+    remote.host = '172.27.244.233'
     remote.user = 'root'
     remote.port = 2222
     remote.password = '123456'
