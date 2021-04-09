@@ -77,7 +77,7 @@ node {
         //}
 
         sh "docker run -name cloud-app -d -p 8181:8080 ${tagName}"
-        sleep 5
+        sleep 3
         sh 'curl "http://127.0.0.1:8181"'
         sh "docker rmi cloud-app"
      }
