@@ -33,7 +33,7 @@ node {
          withCredentials([usernamePassword(credentialsId: 'host-ssh', passwordVariable: 'sshPassword', usernameVariable: 'sshUser')]) {
             sshServer = getSSHServer(sshUser,sshPassword)
             echo workspace
-            sshCommand remote: sshServer, command: "cd "+workspace + " && pwd"
+            sshCommand remote: sshServer, command: "cd "+workspace
          }
 
          // Remove resources created previous time
