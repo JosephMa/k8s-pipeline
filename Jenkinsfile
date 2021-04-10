@@ -5,21 +5,21 @@ node {
      def tagName
      def sshServer
      def workspace = pwd()
-     triggers {
-         GenericTrigger(
-          genericVariables: [
-           [key: 'ref', value: '$.ref']
-          ],
-          causeString: 'Triggered on $ref',
-          token: 'WebHook',
-          printContributedVariables: true,
-          printPostContent: true,
-          silentResponse: false,
-          regexpFilterText: '$ref',
-          regexpFilterExpression: 'refs/heads/' + BRANCH_NAME
-         )
-     }
+     properties([
+           gitLabConnection('http://172.17.0.5:80'),
+           pipelineTriggers([
+                 [
+                       $class               : 'GenericTrigger',
+                       triggerOnPush        : true,
+                       triggerOnMergeRequest: true,
+                 ]
+           ]),
+           disableConcurrentBuilds(),
+           overrideIndexTriggers(false)
+     ])
+
      stage('Prepare') {
+         echo env.BRANCH_NAME
          // Variables initilization
          artiServer = Artifactory.server('jfrog-artifactory')
          rtMaven = Artifactory.newMavenBuild()
