@@ -80,6 +80,7 @@ node {
         sshCommand remote: sshServer, command: "curl http://127.0.0.1:8181"
         sh "docker stop cloud-app"
         sh "docker rm cloud-app"
+        //sh "docker rmi ${tagName}"
      }
      stage('Promotions') {
         echo "stage 07"
