@@ -69,7 +69,7 @@ node {
          }
          echo "stage 01"
          //git url: 'https://github.com/JosephMa/k8s-pipeline.git', branch: 'master'
-         git credentialsId: 'gitlab_ssh', url: gitlab_url+'/root/k8s-pipeline.git', branch: 'master'
+         git credentialsId: 'gitlab_ssh', url: ‘ssh://git@172.17.0.5:80:root/k8s-pipeline.git', branch: 'master'
      }
      stage('Build Maven') {
          echo "stage 02"
