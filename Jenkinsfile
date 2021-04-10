@@ -5,6 +5,20 @@ node {
      def tagName
      def sshServer
      def workspace = pwd()
+     triggers {
+         GenericTrigger(
+          genericVariables: [
+           [key: 'ref', value: '$.ref']
+          ],
+          causeString: 'Triggered on $ref',
+          token: 'WebHook',
+          printContributedVariables: true,
+          printPostContent: true,
+          silentResponse: false,
+          regexpFilterText: '$ref',
+          regexpFilterExpression: 'refs/heads/' + BRANCH_NAME
+         )
+     }
      stage('Prepare') {
          // Variables initilization
          artiServer = Artifactory.server('jfrog-artifactory')
@@ -37,7 +51,8 @@ node {
      }
      stage('Checkout Source') {
          echo "stage 01"
-         git url: 'https://github.com/JosephMa/k8s-pipeline.git', branch: 'master'
+         //git url: 'https://github.com/JosephMa/k8s-pipeline.git', branch: 'master'
+         git url: 'http://localhost:9980/root/k8s-pipeline.git', branch: 'master'
      }
      stage('Build Maven') {
          echo "stage 02"
