@@ -19,6 +19,18 @@ node {
          withCredentials([usernamePassword(credentialsId: 'host-ssh', passwordVariable: 'sshPassword', usernameVariable: 'sshUser')]) {
             sshServer = getSSHServer(sshUser,sshPassword)
          }
+
+         // Remove resources created previous time
+         try {
+            sshCommand remote: sshServer, command: "docker rm cloud-app"
+            sshCommand remote: sshServer, command: "docker rmi joseph/cloud-app"
+            sshCommand remote: sshServer, command: "kubectl -s --namespace=devops delete deploy --all"
+            sshCommand remote: sshServer, command: "kubectl -s --namespace=devops delete svc --all"
+            sshCommand remote: sshServer, command: "kubectl -s --devops delete configmap --al"
+            sh 'sleep 5'
+         } catch(Exception e) {
+            println('remove resources in kubernetes failed, please check the log.')
+         }
          echo "stage 00"
      }
      stage('Checkout Source') {
