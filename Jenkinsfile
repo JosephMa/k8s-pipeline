@@ -6,6 +6,7 @@ node {
      def sshServer
      def workspace = pwd()
      def gitlab_url = "http://172.17.0.5:80"
+     def host_ip = "172.27.244.233"
      properties([
            gitLabConnection(gitlab_url),
            pipelineTriggers([
@@ -21,26 +22,28 @@ node {
 
      stage('Prepare') {
          echo env.BRANCH_NAME
+
          // Variables initilization
          artiServer = Artifactory.server('jfrog-artifactory')
          rtMaven = Artifactory.newMavenBuild()
          buildInfo = Artifactory.newBuildInfo()
+
          // Build Env
          buildInfo.env.capture = true
          rtMaven.deployer releaseRepo:'automation-mvn-solution-local', snapshotRepo:'automation-mvn-sol-snapshot-local', server: artiServer
          rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: artiServer
          rtMaven.tool = "mvn"
+
          // Build SSH Server
-         withCredentials([usernamePassword(credentialsId: 'host-ssh', passwordVariable: 'sshPassword', usernameVariable: 'sshUser')]) {
-            sshServer = getSSHServer(sshUser,sshPassword)
-            echo workspace
-            //sshCommand remote: sshServer, command: "cd "+workspace
-         }
+         sshServer = getSSHServer(host_ip)
+         echo workspace
 
          // Remove resources created previous time
          try {
-            sshCommand remote: sshServer, command: "docker rm cloud-app"
-            sshCommand remote: sshServer, command: "docker rmi joseph/cloud-app"
+            def clearAppImage = "n=`docker images | grep  'cloud-app' | wc -l`; if [ \$n -gt 0 ]; then docker rmi `docker images | grep  'cloud-app' | awk '{print \$3}'`; fi"
+
+            sshCommand remote: sshServer, command: "${clearAppImage}"
+            sshCommand remote: sshServer, command: "docker rmi $(docker images | grep joseph/cloud-app | awk  '{print $3}')"
             sshCommand remote: sshServer, command: "kubectl -s --namespace=devops delete deploy --all"
             sshCommand remote: sshServer, command: "kubectl -s --namespace=devops delete svc --all"
             sshCommand remote: sshServer, command: "kubectl -s --devops delete configmap --al"
@@ -51,25 +54,11 @@ node {
          echo "stage 00"
      }
      stage('Checkout Source') {
+         echo ${ref}
 
-         script{
-                   try{
-                     if("${branch}" != ""){
-                       println "----------webhook式触发-----------"
-                       branchName = branch - "refs/heads"
-                       branchName = sh(returnStdout: true,script: "echo ${branchName}|awk -F '/' '{print \$NF}'").trim()
-                       println "webhook触发的分支是: " + "${branchName}"
-                     }
-                   } catch(exc) { }
-                     if("${params.repoBranch}" != ""){
-                       println "-----------手动方式触发------------"
-                       branchName = "${params.repoBranch}"
-                       println "手动触发的分支是: " + "${branchName}"
-                     }
-         }
          echo "stage 01"
          //git url: 'https://github.com/JosephMa/k8s-pipeline.git', branch: 'master'
-         git credentialsId: 'git:f72f4c3c1a601541e93e7f931b9971429d26862a1da32f869814a5fd5d797007', url: 'http://172.17.0.5:80/root/k8s-pipeline.git', branch: 'master'
+         git credentialsId: 'git:f72f4c3c1a601541e93e7f931b9971429d26862a1da32f869814a5fd5d797007', url: gitlab_url+'/root/k8s-pipeline.git', branch: 'master'
      }
      stage('Build Maven') {
          echo "stage 02"
@@ -122,8 +111,6 @@ node {
         sleep 3
         sshCommand remote: sshServer, command: "curl http://127.0.0.1:8181"
         sh "docker stop cloud-app"
-        sh "docker rm cloud-app"
-        //sh "docker rmi ${tagName}"
      }
      stage('Promotions') {
         echo "stage 07"
@@ -134,7 +121,7 @@ node {
      	echo "stage 08"
      	//sh 'curl -O -u ops01:AP6BUJfR9Yz2wiZBUwJtWZoTrTt -X GET http://localhost:8082/artifactory/kube-config/1.0/app.cfg'
         //sh 'kubectl -s kube-master:8080 --namespace=devops create configmap app-config --from-literal=$(cat app.cfg)'
-        sshCommand remote: sshServer, command: "pwd && cd "+workspace + " && pwd"
+        sshCommand remote: sshServer, command: "pwd | cd "+workspace + " | pwd"
         sshCommand remote: sshServer, command: "kubectl --namespace=devops create configmap app-config --from-file=./app.cfg"
      }
      stage('Deployment') {
@@ -155,13 +142,15 @@ node {
      }
 }
 
-def getSSHServer(sshUser,sshPassword){
+def getSSHServer(ip){
     def remote = [:]
-    remote.name = 'host-172.27.244.233'
-    remote.host = '172.27.244.233'
-    remote.user = sshUser
+    remote.name = 'host-'+ip
+    remote.host = ip
     remote.port = 2222
-    remote.password = sshPassword
     remote.allowAnyHosts = true
+    withCredentials([usernamePassword(credentialsId: 'host-ssh', passwordVariable: 'sshPassword', usernameVariable: 'sshUser')]) {
+        remote.user = sshUser
+        remote.password = sshPassword
+    }
     return remote
 }
