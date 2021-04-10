@@ -18,8 +18,8 @@ node {
          // Build SSH Server
          withCredentials([usernamePassword(credentialsId: 'host-ssh', passwordVariable: 'sshPassword', usernameVariable: 'sshUser')]) {
             sshServer = getSSHServer(sshUser,sshPassword)
-            sshCommand remote: sshServer, command: "cd "+workspace
-            sshCommand remote: sshServer, command: "pwd"
+            echo workspace
+            sshCommand remote: sshServer, command: "cd "+workspace + " && pwd"
          }
 
          // Remove resources created previous time
@@ -43,9 +43,6 @@ node {
          echo "stage 02"
          // Maven build
          // rtMaven.run pom: 'pom.xml', goals: 'clean test install', buildInfo: buildInfo
-         //sshServer = getSSHServer()
-         //sshCommand remote: sshServer, command: "cd "+workspace
-         //sshCommand remote: sshServer, command: "mvn -Dmaven.test.skip=true clean install"
          try {
              withMaven(maven: 'maven3.6.3') {
                 sh "mvn -B clean package -DskipTests"
@@ -105,6 +102,7 @@ node {
      	echo "stage 08"
      	//sh 'curl -O -u ops01:AP6BUJfR9Yz2wiZBUwJtWZoTrTt -X GET http://localhost:8082/artifactory/kube-config/1.0/app.cfg'
         //sh 'kubectl -s kube-master:8080 --namespace=devops create configmap app-config --from-literal=$(cat app.cfg)'
+        sshCommand remote: sshServer, command: "cd "+workspace + " && pwd"
         sshCommand remote: sshServer, command: "kubectl --namespace=devops create configmap app-config --from-file=./app.cfg"
      }
      stage('Deployment') {
