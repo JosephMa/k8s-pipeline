@@ -74,7 +74,7 @@ node {
         sh "docker run --name cloud-app -d -p 8181:8080 ${tagName}"
         sleep 3
         withCredentials([usernamePassword(credentialsId: 'host-ssh', passwordVariable: 'sshPassword', usernameVariable: 'sshUser')]) {
-            sshServer = getSSHServer(${sshUser},${sshPassword})
+            sshServer = getSSHServer(sshUser,sshPassword)
             sshCommand remote: sshServer, command: "curl http://127.0.0.1:8181"
         }
         //sh "curl http://172.27.244.233:8181"
