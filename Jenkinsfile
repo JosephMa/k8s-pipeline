@@ -51,9 +51,25 @@ node {
          echo "stage 00"
      }
      stage('Checkout Source') {
+
+         script{
+                   try{
+                     if("${branch}" != ""){
+                       println "----------webhook式触发-----------"
+                       branchName = branch - "refs/heads"
+                       branchName = sh(returnStdout: true,script: "echo ${branchName}|awk -F '/' '{print \$NF}'").trim()
+                       println "webhook触发的分支是: " + "${branchName}"
+                     }
+                   } catch(exc) { }
+                     if("${params.repoBranch}" != ""){
+                       println "-----------手动方式触发------------"
+                       branchName = "${params.repoBranch}"
+                       println "手动触发的分支是: " + "${branchName}"
+                     }
+         }
          echo "stage 01"
          //git url: 'https://github.com/JosephMa/k8s-pipeline.git', branch: 'master'
-         git url: gitlab_url+'/root/k8s-pipeline.git', branch: 'master'
+         git credentialsId: 'gitlab_token', url: gitlab_url+'/root/k8s-pipeline.git', branch: 'master'
      }
      stage('Build Maven') {
          echo "stage 02"
