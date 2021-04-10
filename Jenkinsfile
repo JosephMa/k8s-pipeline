@@ -58,7 +58,7 @@ node {
 
          echo "stage 01"
          //git url: 'https://github.com/JosephMa/k8s-pipeline.git', branch: 'master'
-         git credentialsId: 'git:f72f4c3c1a601541e93e7f931b9971429d26862a1da32f869814a5fd5d797007', url: gitlab_url+'/root/k8s-pipeline.git', branch: 'master'
+         git credentialsId: 'git:f72f4c3c1a601541e93e7f931b9971429d26862a1da32f869814a5fd5d797007', url: ${gitlab_url}+'/root/k8s-pipeline.git', branch: 'master'
      }
      stage('Build Maven') {
          echo "stage 02"
