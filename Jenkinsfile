@@ -15,6 +15,10 @@ node {
          rtMaven.deployer releaseRepo:'automation-mvn-solution-local', snapshotRepo:'automation-mvn-sol-snapshot-local', server: artiServer
          rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: artiServer
          rtMaven.tool = "mvn"
+         // Build SSH Server
+         withCredentials([usernamePassword(credentialsId: 'host-ssh', passwordVariable: 'sshPassword', usernameVariable: 'sshUser')]) {
+            sshServer = getSSHServer(sshUser,sshPassword)
+         }
          echo "stage 00"
      }
      stage('Checkout Source') {
@@ -73,12 +77,7 @@ node {
         // Smoke test
         sh "docker run --name cloud-app -d -p 8181:8080 ${tagName}"
         sleep 3
-        withCredentials([usernamePassword(credentialsId: 'host-ssh', passwordVariable: 'sshPassword', usernameVariable: 'sshUser')]) {
-            sshServer = getSSHServer(sshUser,sshPassword)
-            sshCommand remote: sshServer, command: "curl http://127.0.0.1:8181"
-        }
-        //sh "curl http://172.27.244.233:8181"
-        //sleep 1
+        sshCommand remote: sshServer, command: "curl http://127.0.0.1:8181"
         sh "docker stop cloud-app"
         sh "docker rm cloud-app"
      }
@@ -91,7 +90,7 @@ node {
      	echo "stage 08"
      	//sh 'curl -O -u ops01:AP6BUJfR9Yz2wiZBUwJtWZoTrTt -X GET http://localhost:8082/artifactory/kube-config/1.0/app.cfg'
         //sh 'kubectl -s kube-master:8080 --namespace=devops create configmap app-config --from-literal=$(cat app.cfg)'
-        sshCommand remote: sshServer, command: "kubectl -s kube-master:8080 --namespace=devops create configmap app-config --from-literal=1.0"
+        sshCommand remote: sshServer, command: "kubectl --namespace=devops create configmap app-config --from-literal=1.0"
      }
      stage('Deployment') {
      	echo "stage 09"
@@ -100,8 +99,8 @@ node {
         sh 'sleep 10'
         //sh 'kubectl -s kube-master:8080 create -f kube-svc.json'
         //sh 'kubectl -s kube-master:8080 create -f kube-app.json'
-        sshCommand remote: sshServer, command: "kubectl -s kube-master:8080 create -f kube-svc.json"
-        sshCommand remote: sshServer, command: "kubectl -s kube-master:8080 create -f kube-app.json"
+        sshCommand remote: sshServer, command: "kubectl create -f kube-svc.json"
+        sshCommand remote: sshServer, command: "kubectl create -f kube-app.json"
         sh 'for i in {1..120}; do echo "waiting for app starting,$[180-$i] second left..."; sleep 1; done;'
         sh 'echo deploy finished successfully.'
      }
