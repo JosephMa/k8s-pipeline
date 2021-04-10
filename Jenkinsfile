@@ -5,8 +5,9 @@ node {
      def tagName
      def sshServer
      def workspace = pwd()
+     def gitlab_url = "http://172.17.0.5:80"
      properties([
-           gitLabConnection('http://172.17.0.5:80'),
+           gitLabConnection(gitlab_url),
            pipelineTriggers([
                  [
                        $class               : 'GenericTrigger',
@@ -52,7 +53,7 @@ node {
      stage('Checkout Source') {
          echo "stage 01"
          //git url: 'https://github.com/JosephMa/k8s-pipeline.git', branch: 'master'
-         git url: 'http://localhost:9980/root/k8s-pipeline.git', branch: 'master'
+         git url: gitlab_url+'/root/k8s-pipeline.git', branch: 'master'
      }
      stage('Build Maven') {
          echo "stage 02"
